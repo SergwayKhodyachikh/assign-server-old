@@ -1,16 +1,21 @@
 const app = require('express')();
 const { PORT } = require('./config/env');
+const { failure, success } = require('./util/log');
 
-const handleError = err => {
-  console.log(err);
-  process(1)
+/**
+ * log the error description and exit the application
+ * @param ex error description
+ */
+const handleEx = ex => {
+  failure(ex);
+  process.exit(1);
 };
 
-process.on('uncaughtException', ex => console.log(ex));
-process.on('unhandledRejection', err => console.log(err));
+process.on('uncaughtException', handleEx);
+process.on('unhandledRejection', handleEx);
 
 module.exports = (async () => {
   await require('./config/sequelize')();
 
-  return app.listen(PORT, () => console.log(`listening on port ${chalk.green(PORT)}`));
+  return app.listen(PORT, () => success(`listening on port ${PORT}`));
 })();

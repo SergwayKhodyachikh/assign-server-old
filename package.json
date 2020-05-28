@@ -3,11 +3,22 @@
   "version": "1.0.0",
   "description": "A rest api server for task management app",
   "main": "index.js",
+  "engines": {
+    "node": "12.13.1",
+    "npm": "6.13.4"
+  },
   "scripts": {
-    "start": "node index",
-    "dev": "npx nodemon index",
+    "start": "node index.js",
+    "dev": "npx nodemon index.js",
     "db:create": "npx sequelize-cli db:create",
-    "test": "npm jest -i"
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "db:seed": "npx sequelize-cli db:seed:all",
+    "db:seed:undo": "npx sequelize-cli db:seed:all:undo",
+    "db:init": "npm run db:create;npm run db:migrate;npm run db:seed",
+    "pretest": "NODE_ENV=test npm rub db:create; NODE_ENV=test npm run db:migrate",
+    "posttest": "NODE_ENV=test npx sequelize-cli db:drop",
+    "test": "npm jest -i",
+    "lint": "eslint --ignore-path .gitignore ."
   },
   "keywords": [
     "tasks",
@@ -16,15 +27,52 @@
   "author": "Sergey Khodyachikh",
   "license": "ISC",
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "bcryptjs": "^2.4.3",
     "chalk": "^4.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "pg": "^8.0.2",
+    "faker": "^4.1.0",
+    "handlebars": "^4.7.6",
+    "helmet": "^3.22.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.15",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.4.8",
+    "pg": "^8.2.1",
     "pg-hstore": "^2.3.3",
-    "sequelize": "^5.21.6"
+    "sequelize": "^5.21.11",
+    "sequelize-cli": "^5.5.1",
+    "uuid": "^8.1.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.3",
-    "sequelize-cli": "^5.5.1"
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "jest": "^26.0.1",
+    "jsdoc": "^3.6.4",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.0.5",
+    "supertest": "^4.0.2"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "public",
+      "public/*"
+    ],
+    "delay": "1000"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": true,
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "delay": "5000"
   }
 }
