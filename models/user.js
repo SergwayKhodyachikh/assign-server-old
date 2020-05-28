@@ -1,18 +1,55 @@
-'use strict';
-module.exports = (sequelize, DataTypes) => {
-  const user = sequelize.define('user', {
-    id: DataTypes.UUID,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    name: DataTypes.STRING,
-    role: DataTypes.STRING,
-    reset_token: DataTypes.STRING,
-    reset_token_expires: DataTypes.DATE,
-    create_at: DataTypes.DATE,
-    updated_at: DataTypes.DATE
-  }, {});
-  user.associate = function(models) {
-    // associations can be defined here
-  };
-  return user;
-};
+const { Model, DataTypes } = require('sequelize');
+const bcrypt = require('bcryptjs');
+const sequelize = require('../config/sequelize');
+
+class User extends Model {}
+
+User.init(
+  {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV4,
+    },
+    email: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+      validate: { isEmail: true, notNull: true, notEmpty: true, len: [3, 255] },
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: { notEmpty: true, len: [1, 255], notNull: true },
+    },
+    name: { type: DataTypes.STRING, defaultValue: 'unknown', validate: { len: [1, 255] } },
+    role: {
+      type: DataTypes.STRING,
+      defaultValue: 'user',
+      validate: {
+        isIn: [['user', 'guide', 'lead-guide', 'admin']],
+      },
+    },
+    resetToken: {
+      type: DataTypes.STRING,
+    },
+    resetTokenExpires: {
+      type: DataTypes.DATE,
+    },
+  },
+  {
+    sequelize,
+    hooks: {
+      beforeCreate: async user => {
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(user.password, salt);
+      },
+      beforeUpdate: async user => {
+        if (user.getDataValue('password') !== user.previous('password')) {
+          const salt = await bcrypt.genSalt(10);
+          user.password = await bcrypt.hash(user.password, salt);
+        }
+      },
+    },
+  }
+);

@@ -6,7 +6,7 @@
         "jest": true
     },
     "extends": [ "airbnb-base", "prettier", "plugin:node/recommended" ],
-    "plugins": ["prettier"],
+    "plugins": [ "prettier" ],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
@@ -15,7 +15,8 @@
         "ecmaVersion": 11
     },
     "rules": {
-        "no-process-exit":"off",
-        "global-require":"off"
+        "no-process-exit": "off",
+        "global-require": "off",
+        "no-param-reassign": "off"
     }
 }
