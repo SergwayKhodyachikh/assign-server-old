@@ -3,7 +3,7 @@ const { cyan, green, red } = require('chalk');
 const { log, error } = console;
 
 module.exports = {
-  success: i => log(green(i)),
-  failure: i => error(red(i)),
-  query: q => log(cyan(q)),
+  success: s => log(green(s)),
+  failure: s => error(red(s)),
+  query: q => log(cyan(`\n${q}\n`)),
 };

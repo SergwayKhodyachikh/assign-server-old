@@ -1,17 +1,13 @@
 const { Sequelize } = require('sequelize');
-const { cyan, green, red } = require('chalk');
 const { database, env } = require('./env');
-
-const { log, error } = console;
-
-const logQuery = query => log(cyan(`\n${query}\n`));
+const { success, failure, query } = require('../util/log');
 
 // sequelize database connection configuration
 module.exports = async () => {
   try {
     const sequelize = new Sequelize(...Object.values(database), {
       dialect: 'postgres',
-      logging: env.isDev ? logQuery : false,
+      logging: env.isDev ? query : false,
       define: {
         underscored: true,
       },
@@ -19,11 +15,11 @@ module.exports = async () => {
 
     await sequelize.authenticate();
 
-    log(green('database connection established'));
+    success('database connection established');
 
     return sequelize;
   } catch (err) {
-    error(red('database connection failed\n', err));
+    failure('database connection failed\n', err);
     process.exit(1);
   }
 };
