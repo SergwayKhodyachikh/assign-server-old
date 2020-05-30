@@ -32,7 +32,7 @@ module.exports = {
       reset_token_expires: {
         type: Sequelize.DATE,
       },
-      create_at: {
+      created_at: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('now()'),
       },

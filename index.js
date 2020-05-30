@@ -4,6 +4,7 @@ const cors = require('cors');
 const { PORT } = require('./config/env');
 const { failure, success } = require('./util/log');
 const routes = require('./routes');
+const database = require('./config/database');
 const errorHandler = require('./middleware/errorHandle');
 const notFound = require('./routes/notFound');
 
@@ -24,7 +25,7 @@ process.on('unhandledRejection', handleEx);
 const app = express();
 
 module.exports = (async () => {
-  await require('./config/sequelize')(); // database initialize
+  await database(); // database initialize
   app.use(express.json({ limit: MAX_BYTES })); // json body parser
   app.use(express.static(path.join(__dirname, 'public'))); // static files parser
   app.use(cors()); // allow cors origin

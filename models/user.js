@@ -1,8 +1,35 @@
 const { Model, DataTypes } = require('sequelize');
 const bcrypt = require('bcryptjs');
+const Joi = require('@hapi/joi');
+const jwt = require('jsonwebtoken');
 const sequelize = require('../config/sequelize');
+const { JWT_KEY } = require('../config/env');
 
-class User extends Model {}
+const USER_SCHEMA = {
+  create: Joi.object({
+    email: Joi.string().min(3).max(255).email().required(),
+    password: Joi.string().min(1).max(255).required(),
+    name: Joi.string().min(1).max(255),
+  }),
+};
+
+class User extends Model {
+  static validate(reqBody, validationType) {
+    return USER_SCHEMA[validationType].validate(reqBody);
+  }
+
+  generateAuthToken() {
+    return jwt.sign(
+      {
+        sub: this.id,
+        aud: this.role,
+        iat: Date.now(),
+      },
+      JWT_KEY,
+      { expiresIn: '20d' }
+    );
+  }
+}
 
 User.init(
   {
