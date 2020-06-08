@@ -29,6 +29,11 @@ class User extends Model {
       { expiresIn: '20d' }
     );
   }
+
+  authUserChanged(authDate) {
+    // creating or saving a document delay the process that why we reduce a sec
+    return authDate <= this.getDataValue('updatedAt').getTime() - 1000;
+  }
 }
 
 User.init(
