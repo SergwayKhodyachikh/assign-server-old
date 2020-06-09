@@ -8,7 +8,7 @@ const auth = require('../middleware/auth');
 
 router.route('/').post(bodyValidation(User, 'create'), createUser);
 
-router.get('/me', auth, getCurrentUser);
+router.route('/me').all(auth).get(getCurrentUser);
 
 router.post('/login', userLogin);
 
