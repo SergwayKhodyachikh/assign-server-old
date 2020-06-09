@@ -17,6 +17,7 @@
     "rules": {
         "no-process-exit": "off",
         "global-require": "off",
-        "no-param-reassign": "off"
+        "no-param-reassign": "off",
+        "no-return-await":"off"
     }
 }

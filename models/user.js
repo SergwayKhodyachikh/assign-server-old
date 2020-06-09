@@ -34,6 +34,10 @@ class User extends Model {
     // creating or saving a document delay the process that why we reduce a sec
     return authDate <= this.getDataValue('updatedAt').getTime() - 1000;
   }
+
+  async comparePassword(password) {
+    return await bcrypt.compare(password, this.password);
+  }
 }
 
 User.init(
