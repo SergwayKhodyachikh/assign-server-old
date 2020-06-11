@@ -30,6 +30,7 @@ module.exports = (async () => {
   app.use(express.static(path.join(__dirname, 'public'))); // static files parser
   app.use(cors()); // allow cors origin
   app.options('*', cors()); // allow cors origin for option request
+  app.use('/', (req, res) => res.send("hello world"))
   app.use('/api/v1', routes); // rest api routes
   app.use('*', notFound); // page not found error handler
   app.use(errorHandler); // error handler
