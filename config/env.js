@@ -3,12 +3,13 @@ const crypto = require('crypto');
 
 const {
   NODE_ENV,
+  DATABASE_HOST,
   DATABASE_NAME,
   DATABASE_USERNAME,
   DATABASE_PASSWORD,
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
-  CLIENT_BASE_URL
+  CLIENT_BASE_URL,
 } = process.env;
 
 const PORT = process.env.PORT || 5000;
@@ -27,11 +28,12 @@ const database = {
   password: DATABASE_PASSWORD,
 };
 
+const databaseHost = DATABASE_HOST;
+
 const google = {
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
   callbackURL: `${CLIENT_BASE_URL}/api/auth/google/callback`,
 };
 
-
-module.exports = { env, database, NODE_ENV, PORT, JWT_KEY, google };
+module.exports = { env, database, databaseHost, NODE_ENV, PORT, JWT_KEY, google };
