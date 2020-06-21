@@ -8,7 +8,7 @@ const { JWT_KEY } = require('../config/env');
 const USER_SCHEMA = {
   create: Joi.object({
     email: Joi.string().min(3).max(255).email().required(),
-    password: Joi.string().min(1).max(255).required(),
+    password: Joi.string().min(5).max(255).required(),
     name: Joi.string().min(1).max(255),
   }),
 };
@@ -56,7 +56,7 @@ User.init(
     password: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: { notEmpty: true, len: [1, 255], notNull: true },
+      validate: { notEmpty: true, len: [5, 255], notNull: true },
     },
     name: { type: DataTypes.STRING, defaultValue: 'unknown', validate: { len: [1, 255] } },
     role: {
