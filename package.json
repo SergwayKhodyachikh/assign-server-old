@@ -46,7 +46,6 @@
     "pg": "^8.2.1",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.11",
-    "sequelize-cli": "^5.5.1",
     "uuid": "^8.1.0"
   },
   "devDependencies": {
@@ -60,6 +59,7 @@
     "jsdoc": "^3.6.4",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
+    "sequelize-cli": "^5.5.1",
     "supertest": "^4.0.2"
   },
   "nodemonConfig": {

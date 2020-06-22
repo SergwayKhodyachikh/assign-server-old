@@ -22,10 +22,12 @@ const env = {
   isProd: NODE_ENV === 'production',
 };
 
+const databaseName = DATABASE_NAME || 'assign';
+
 const database = {
-  database: env.isTest ? `${DATABASE_NAME}-test` : DATABASE_NAME,
-  username: DATABASE_USERNAME,
-  password: DATABASE_PASSWORD,
+  database: env.isTest ? `${databaseName}-test` : databaseName,
+  username: DATABASE_USERNAME || 'postgres',
+  password: DATABASE_PASSWORD || 'postgres',
 };
 
 const databaseHost = DATABASE_HOST;
