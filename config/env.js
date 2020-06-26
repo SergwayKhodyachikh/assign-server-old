@@ -1,6 +1,8 @@
 require('dotenv').config({ debug: true });
 const crypto = require('crypto');
 
+const randomKey = crypto.randomBytes(32).toString('hex');
+
 const {
   NODE_ENV,
   DATABASE_HOST,
@@ -14,7 +16,7 @@ const {
 
 const PORT = process.env.PORT || 5000;
 
-const JWT_KEY = process.env.JWT_KEY || crypto.randomBytes(32).toString('hex');
+const JWT_KEY = process.env.JWT_KEY || randomKey;
 
 const env = {
   isDev: !NODE_ENV || NODE_ENV === 'development',
