@@ -9,5 +9,5 @@ const connection = {
 module.exports = {
   development: connection,
   test: connection,
-  production: connection,
+  production: process.env.DATABASE_URL,
 };
