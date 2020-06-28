@@ -28,15 +28,19 @@ exports.getCurrentUser = async (req, res) => {
   res.send({ status: 'success', user });
 };
 
-exports.userLogin = async (req, res) => {
-  const user = await User.findOne({ where: { email: req.body.email } });
-  if (!user) throw new ServerError('invalid credentials', 400);
+exports.userLogin = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ where: { email: req.body.email } });
+    if (!user) throw new ServerError('invalid credentials', 400);
 
-  const validPassword = await user.comparePassword(req.body.password);
-  if (!validPassword) throw new ServerError('invalid credentials', 400);
-  const token = user.generateAuthToken();
+    const validPassword = await user.comparePassword(req.body.password);
+    if (!validPassword) throw new ServerError('invalid credentials', 400);
+    const token = user.generateAuthToken();
 
-  res
-    .header('Authorization', token)
-    .send({ status: 'success', token, user: _.pick(user, ['id', 'name', 'email']) });
-}
+    res
+      .header('Authorization', token)
+      .send({ status: 'success', token, user: _.pick(user, ['id', 'name', 'email']) });
+  } catch (err) {
+    next(err);
+  }
+};

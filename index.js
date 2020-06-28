@@ -28,8 +28,18 @@ module.exports = (async () => {
   await database(); // database initialize
   app.use(express.json({ limit: MAX_BYTES })); // json body parser
   app.use(express.static(path.join(__dirname, 'public'))); // static files parser
-  app.use(cors()); // allow cors origin
-  app.options('*', cors()); // allow cors origin for option request
+  app.use(
+    cors({
+      credentials: true,
+      allowedHeaders: ['Content-Type', 'Authorization'],
+      exposedHeaders: ['Content-Type', 'Authorization'],
+    })
+  ); // allow cors origin
+  app.options('*', cors({
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['Content-Type', 'Authorization'],
+  })); // allow cors origin for option request
   app.use('/api/v1', routes); // rest api routes
   app.use('*', notFound); // page not found error handler
   app.use(errorHandler); // error handler

@@ -10,6 +10,6 @@ router.route('/').post(bodyValidation(User, 'create'), createUser);
 
 router.route('/me').all(auth).get(getCurrentUser);
 
-router.post('/login', userLogin);
+router.post('/login', bodyValidation(User, 'login'), userLogin);
 
 module.exports = router;
