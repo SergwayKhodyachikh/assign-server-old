@@ -4,6 +4,7 @@ const Joi = require('@hapi/joi');
 const jwt = require('jsonwebtoken');
 const sequelize = require('../config/sequelize');
 const { JWT_KEY } = require('../config/env');
+const Project = require('./project');
 
 const USER_SCHEMA = {
   create: Joi.object({
@@ -93,5 +94,8 @@ User.init(
     },
   }
 );
+
+User.hasMany(Project, { foreignKey: 'owner' });
+Project.belongsTo(User, { foreignKey: 'owner' });
 
 module.exports = User;
