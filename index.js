@@ -11,8 +11,11 @@ const notFound = require('./routes/notFound');
 const MAX_BYTES = 52428800;
 
 const CORS_OPTIONS = {
-  // allowedHeaders: ['Content-Type', 'Authorization'],
+  origin: 'http://localhost:3000',
+  credentials: true,
   exposedHeaders: ['Content-Type', 'Authorization'],
+
+  // allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
 /**
