@@ -16,6 +16,8 @@ const {
 
 const PORT = process.env.PORT || 5000;
 
+const clientUrl = CLIENT_BASE_URL || 'http://localhost:3000';
+
 const JWT_KEY = process.env.JWT_KEY || randomKey;
 
 const env = {
@@ -40,4 +42,4 @@ const google = {
   callbackURL: `${CLIENT_BASE_URL}/api/auth/google/callback`,
 };
 
-module.exports = { env, database, databaseHost, NODE_ENV, PORT, JWT_KEY, google };
+module.exports = { env, database, databaseHost, NODE_ENV, PORT, JWT_KEY, google, clientUrl };

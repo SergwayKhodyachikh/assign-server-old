@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
-const { PORT } = require('./config/env');
+const { PORT, clientUrl } = require('./config/env');
 const { failure, success } = require('./utils/log');
 const routes = require('./routes');
 const database = require('./config/database');
@@ -11,7 +11,7 @@ const notFound = require('./routes/notFound');
 const MAX_BYTES = 52428800;
 
 const CORS_OPTIONS = {
-  origin: 'http://localhost:3000',
+  origin: clientUrl,
   credentials: true,
   exposedHeaders: ['Content-Type', 'Authorization'],
 
