@@ -2,7 +2,7 @@ const router = require('express').Router();
 const _ = require('lodash');
 const User = require('../models/user');
 const bodyValidation = require('../middleware/bodyValidation');
-const ServerError = require('../util/ServerError');
+const ServerError = require('../utils/ServerError');
 const { createUser, getCurrentUser, userLogin } = require('../controllers/users');
 const auth = require('../middleware/auth');
 

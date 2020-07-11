@@ -1,5 +1,5 @@
 const Joi = require('@hapi/joi');
-const ServerError = require('../util/ServerError');
+const ServerError = require('../utils/ServerError');
 
 const DEFAULT_SORT_ORDER = [['updatedAt', 'DESC']];
 

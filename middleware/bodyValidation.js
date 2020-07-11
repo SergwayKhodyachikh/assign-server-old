@@ -1,4 +1,4 @@
-const ServerError = require('../util/ServerError');
+const ServerError = require('../utils/ServerError');
 
 /**
  * create a validation middleware that validates request body for given model base on it's validation type

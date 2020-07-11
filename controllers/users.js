@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const User = require('../models/user');
-const ServerError = require('../util/ServerError');
+const ServerError = require('../utils/ServerError');
 
 exports.createUser = async (req, res, next) => {
   try {

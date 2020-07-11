@@ -1,4 +1,4 @@
-const ServerError = require('../util/ServerError');
+const ServerError = require('../utils/ServerError');
 
 /**
  * receive an array of roles if the current authenticated user role included grant access

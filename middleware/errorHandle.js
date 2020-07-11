@@ -1,4 +1,4 @@
-const { failure } = require('../util/log');
+const { failure } = require('../utils/log');
 const {
   env: { isProd },
 } = require('../config/env');

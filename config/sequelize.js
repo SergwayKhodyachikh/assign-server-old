@@ -1,6 +1,6 @@
 const { Sequelize } = require('sequelize');
 const { database, env, databaseHost } = require('./env');
-const { query } = require('../util/log');
+const { query } = require('../utils/log');
 
 // sequelize database connection configuration
 module.exports = new Sequelize(...Object.values(database), {

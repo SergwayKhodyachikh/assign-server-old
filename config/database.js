@@ -1,4 +1,4 @@
-const { success, failure } = require('../util/log');
+const { success, failure } = require('../utils/log');
 const sequelize = require('./sequelize');
 
 /**

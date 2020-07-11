@@ -1,4 +1,4 @@
-const ServerError = require('../util/ServerError');
+const ServerError = require('../utils/ServerError');
 
 module.exports = (req, res, next) => {
   const url = /\?/.test(req.originalUrl) ? req.originalUrl.split('?')[0] : req.originalUrl;
