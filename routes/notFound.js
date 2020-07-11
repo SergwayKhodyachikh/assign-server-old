@@ -1,5 +1,7 @@
 const ServerError = require('../util/ServerError');
 
 module.exports = (req, res, next) => {
-  next(new ServerError(`can't find ${req.originalUrl} on this server`, 404));
+  const url = /\?/.test(req.originalUrl) ? req.originalUrl.split('?')[0] : req.originalUrl;
+
+  next(new ServerError(`can't find ${url} on this server`, 404));
 };
