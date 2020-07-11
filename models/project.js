@@ -7,6 +7,10 @@ const PROJECT_SCHEMA = {
     title: Joi.string().min(1).max(255).required(),
     accessibility: Joi.boolean().required(),
   }),
+  edit: Joi.object({
+    title: Joi.string().min(1).max(255).required(),
+    accessibility: Joi.boolean().required(),
+  }),
 };
 
 class Project extends Model {
@@ -30,7 +34,7 @@ Project.init(
     accessibility: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
-    }
+    },
   },
   {
     sequelize,

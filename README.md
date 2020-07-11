@@ -1,6 +1,6 @@
 # Assign - Server
 
-## Prerequisites:
+## Prerequisites
 
 - You need an PostgreSQL database installed and configured to use the project.
   You can get PostgreSQL from [here][postgresql].
@@ -16,12 +16,12 @@
 sudo docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 postgres
 ```
 
-## To run the Application in Development:
+## To run the Application in Development
 
 - Open the terminal at the project directory and run the command:
 
 ```sh
-npm i;touch .env;echo "DATABASE=postgres\nDATABASE_USERNAME=postgres\nDATABASE_PASSWORD=postgres\nJWT_KEY=PRIVATE" >> .env;npm start;
+npm i;npm run db:init;npm run dev;
 
 ```
 
