@@ -20,12 +20,16 @@ exports.createUser = async (req, res, next) => {
   }
 };
 
-exports.getCurrentUser = async (req, res) => {
-  const user = await User.findByPk(req.user.id, { attributes: ['id', 'email', 'name'] });
+exports.getCurrentUser = async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.user.id, { attributes: ['id', 'email', 'name'] });
 
-  if (!user) throw new ServerError('the user with the given Id was not found', 404);
+    if (!user) throw new ServerError('the user with the given Id was not found', 404);
 
-  res.send({ status: 'success', user });
+    res.send({ status: 'success', user });
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.userLogin = async (req, res, next) => {

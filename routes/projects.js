@@ -9,6 +9,7 @@ const {
   fetchProjects,
   fetchProject,
   updateProject,
+  deleteProject,
 } = require('../controllers/projects');
 
 router.use(auth);
@@ -19,6 +20,7 @@ router.get('/', queryHandler(Project), fetchProjects);
 
 router
   .route('/:id')
+  .delete(paramValidation, deleteProject)
   .get(paramValidation, fetchProject)
   .put(paramValidation, bodyValidation(Project, 'edit'), updateProject);
 
