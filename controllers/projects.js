@@ -36,7 +36,7 @@ exports.fetchProjects = async (req, res, next) => {
  */
 exports.fetchProject = async (req, res, next) => {
   try {
-    const project = await Project.findByPk(req.params.id, { raw: true });
+    const project = await Project.findByPk(req.params.projectId, { raw: true });
     // validate if the project exists
     if (!project) throw new ServerError('The project with the given ID was not found.', 404);
 
@@ -54,7 +54,7 @@ exports.fetchProject = async (req, res, next) => {
  */
 exports.updateProject = async (req, res, next) => {
   try {
-    const project = await Project.findByPk(req.params.id);
+    const project = await Project.findByPk(req.params.projectId);
     // check if the request exists
     if (!project) {
       throw new ServerError('The project with the given ID was not found.', 404);
@@ -77,7 +77,7 @@ exports.updateProject = async (req, res, next) => {
 exports.deleteProject = async (req, res, next) => {
   try {
     // find a single project with the id
-    const project = await Project.findByPk(req.params.id);
+    const project = await Project.findByPk(req.params.projectId);
     // validate project existence in the database
     if (!project) throw new ServerError('The project with the given ID was not found.', 404);
 

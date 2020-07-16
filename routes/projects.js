@@ -19,9 +19,10 @@ router.post('/', bodyValidation(Project, 'create'), createProject);
 router.get('/', queryHandler(Project), fetchProjects);
 
 router
-  .route('/:id')
-  .delete(paramValidation, deleteProject)
-  .get(paramValidation, fetchProject)
-  .put(paramValidation, bodyValidation(Project, 'edit'), updateProject);
+  .route('/:projectId')
+  .all(paramValidation('projectId'))
+  .delete(deleteProject)
+  .get(fetchProject)
+  .put(bodyValidation(Project, 'edit'), updateProject);
 
 module.exports = router;
