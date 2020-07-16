@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/sequelize');
 const Joi = require('@hapi/joi');
+const sequelize = require('../config/sequelize');
 
 const SECTION_SCHEMA = {
   create: Joi.object({
@@ -14,17 +14,20 @@ class Section extends Model {
   }
 }
 
-Section.init({
-  id: {
-    type: DataTypes.UUID,
-    primaryKey: true,
-    defaultValue: DataTypes.UUIDV4,
+Section.init(
+  {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV4,
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: { notNull: true, notEmpty: true, len: [1, 255] },
+    },
   },
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    validate: { notNull: true, notEmpty: true, len: [1, 255] },
-  },
-});
+  { sequelize }
+);
 
 module.exports = Section;

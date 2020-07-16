@@ -13,17 +13,23 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      project_id: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        reference: {
+          model: 'project',
+          key: 'id',
+        },
+      },
       created_at: {
         defaultValue: Sequelize.literal('now()'),
         type: Sequelize.DATE,
       },
-      updatedAt: {
+      updated_at: {
         defaultValue: Sequelize.literal('now()'),
         type: Sequelize.DATE,
       },
     });
   },
-  down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('sections');
-  },
+  down: async queryInterface => queryInterface.dropTable('sections'),
 };

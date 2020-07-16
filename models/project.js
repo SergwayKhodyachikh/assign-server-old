@@ -1,6 +1,7 @@
 const Joi = require('@hapi/joi');
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/sequelize');
+const Section = require('./section');
 
 const PROJECT_SCHEMA = {
   create: Joi.object({
@@ -40,5 +41,8 @@ Project.init(
     sequelize,
   }
 );
+
+Project.hasMany(Section, { foreignKey: 'projectId' });
+Section.belongsTo(Project, { foreignKey: 'projectId' });
 
 module.exports = Project;
