@@ -1,15 +1,11 @@
 const router = require('express').Router({ mergeParams: true });
 const Section = require('../../models/section');
 const paramValidation = require('../../middleware/paramValidation');
+const { createSection } = require('../../controllers/sections');
+const bodyValidation = require('../../middleware/bodyValidation');
 
-router.post('/', paramValidation('projectId'), async (req, res, next) => {
-  try {
-    const section = await Section.create({ ...req.body, projectId: req.params.projectId });
+router.use(paramValidation('projectId'));
 
-    res.send({ status: 'success', section });
-  } catch (err) {
-    next(err);
-  }
-});
+router.post('/', bodyValidation(Section, 'create'), createSection);
 
 module.exports = router;
