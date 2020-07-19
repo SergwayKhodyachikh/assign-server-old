@@ -11,7 +11,9 @@ const {
   updateProject,
   deleteProject,
 } = require('../../controllers/projects');
-const sections = require('./sections');
+const sections = require('./sections/sections');
+const Task = require('../../models/task');
+const { createTask } = require('../../controllers/tasks');
 
 router.use(auth);
 
@@ -27,5 +29,12 @@ router
   .put(bodyValidation(Project, 'edit'), updateProject);
 
 router.use('/:projectId/sections', sections);
+
+router.post(
+  '/sections/:sectionId/tasks',
+  paramValidation('sectionId'),
+  bodyValidation(Task, 'create'),
+  createTask
+);
 
 module.exports = router;
