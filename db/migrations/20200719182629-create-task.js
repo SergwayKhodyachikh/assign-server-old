@@ -16,12 +16,16 @@ module.exports = {
         allowNull: false,
       },
       section_id: {
-        type: Sequelize.UUID,
-        allowNull: false,
-        reference: {
-          model: 'section',
+        type: Sequelize.DataTypes.UUID,
+        references: {
+          model: {
+            tableName: 'sections',
+          },
           key: 'id',
         },
+        allowNull: false,
+        onDelete: 'CASCADE',
+        onUpdate: 'RESTRICT',
       },
       created_at: {
         defaultValue: Sequelize.literal('now()'),

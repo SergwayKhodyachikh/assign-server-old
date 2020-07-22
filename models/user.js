@@ -95,7 +95,9 @@ User.init(
   }
 );
 
-User.hasMany(Project, { foreignKey: 'owner' });
-Project.belongsTo(User, { foreignKey: 'owner' });
+const associationSettings = { foreignKey: 'owner', onUpdate: 'RESTRICT', onDelete: 'CASCADE' };
+
+User.hasMany(Project, associationSettings);
+Project.belongsTo(User, associationSettings);
 
 module.exports = User;

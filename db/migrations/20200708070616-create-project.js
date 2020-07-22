@@ -19,14 +19,16 @@ module.exports = {
         defaultValue: false,
       },
       owner: {
-        type: Sequelize.UUID,
-        allowNull: false,
+        type: Sequelize.DataTypes.UUID,
         references: {
-          model: 'users',
+          model: {
+            tableName: 'users',
+          },
           key: 'id',
         },
-        onUpdate: 'cascade',
-        onDelete: 'cascade',
+        allowNull: false,
+        onDelete: 'CASCADE',
+        onUpdate: 'RESTRICT',
       },
       created_at: {
         defaultValue: Sequelize.literal('now()'),

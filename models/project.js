@@ -42,7 +42,9 @@ Project.init(
   }
 );
 
-Project.hasMany(Section, { foreignKey: 'projectId' });
-Section.belongsTo(Project, { foreignKey: 'projectId' });
+const associationSettings = { foreignKey: 'projectId', onUpdate: 'RESTRICT', onDelete: 'CASCADE' };
+
+Project.hasMany(Section, associationSettings);
+Section.belongsTo(Project, associationSettings);
 
 module.exports = Project;

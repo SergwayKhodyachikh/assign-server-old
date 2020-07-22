@@ -31,7 +31,7 @@ Section.init(
   { sequelize }
 );
 
-Section.hasMany(Task, { foreignKey: 'sectionId' });
-Task.belongsTo(Section, { foreignKey: 'sectionId' });
+Section.hasMany(Task, { foreignKey: 'sectionId', onUpdate: 'RESTRICT', onDelete: 'CASCADE' });
+Task.belongsTo(Section, { foreignKey: 'sectionId', onUpdate: 'RESTRICT', onDelete: 'CASCADE' });
 
 module.exports = Section;

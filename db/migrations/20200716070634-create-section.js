@@ -15,12 +15,16 @@ module.exports = {
         allowNull: false,
       },
       project_id: {
-        type: Sequelize.UUID,
-        allowNull: false,
-        reference: {
-          model: 'project',
+        type: Sequelize.DataTypes.UUID,
+        references: {
+          model: {
+            tableName: 'projects',
+          },
           key: 'id',
         },
+        allowNull: false,
+        onDelete: 'CASCADE',
+        onUpdate: 'RESTRICT',
       },
       created_at: {
         defaultValue: Sequelize.literal('now()'),
