@@ -36,7 +36,7 @@ exports.fetchProjects = async (req, res, next) => {
 /**
  * fetch project by id
  */
-exports.fetchProject = async (req, res, next) => {
+exports.fetchProjectData = async (req, res, next) => {
   try {
     const project = await Project.findByPk(req.params.projectId, {
       include: { model: Section, include: { model: Task } },

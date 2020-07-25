@@ -7,7 +7,7 @@ const paramValidation = require('../../middleware/paramValidation');
 const {
   createProject,
   fetchProjects,
-  fetchProject,
+  fetchProjectData,
   updateProject,
   deleteProject,
 } = require('../../controllers/projects');
@@ -25,7 +25,7 @@ router
   .route('/:projectId')
   .all(paramValidation('projectId'))
   .delete(deleteProject)
-  .get(fetchProject)
+  .get(fetchProjectData)
   .put(bodyValidation(Project, 'edit'), updateProject);
 
 router.use('/:projectId/sections', sections);

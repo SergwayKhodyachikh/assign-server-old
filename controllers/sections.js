@@ -16,23 +16,3 @@ exports.createSection = async (req, res, next) => {
     next(err);
   }
 };
-
-exports.fetchSections = async (req, res, next) => {
-  try {
-    const sections = await Section.findAll({
-      ...req.queryParams,
-      where: {
-        projectId: req.params.projectId,
-      },
-      include: { model: Task },
-    });
-
-    res.send({
-      status: 'success',
-      results: sections.length,
-      sections,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
