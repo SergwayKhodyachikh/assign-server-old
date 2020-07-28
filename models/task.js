@@ -6,6 +6,9 @@ const TASK_SCHEMA = {
   create: Joi.object({
     title: Joi.string().min(1).max(255).required(),
   }),
+  rename: Joi.object({
+    title: Joi.string().min(1).max(255).required(),
+  }),
 };
 
 class Task extends Model {
@@ -33,4 +36,3 @@ Task.init(
 );
 
 module.exports = Task;
-
