@@ -4,7 +4,7 @@ const tasks = require('./tasks');
 const projects = require('./projects/projects');
 
 router.use('/users', users);
-router.use('/tasks', tasks);
+router.use('/tasks/:taskId', tasks);
 router.use('/projects', projects);
 
 module.exports = router;

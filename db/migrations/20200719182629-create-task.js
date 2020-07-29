@@ -15,6 +15,9 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      due_date: {
+        type: Sequelize.DATE,
+      },
       section_id: {
         type: Sequelize.DataTypes.UUID,
         references: {
