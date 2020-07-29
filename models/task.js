@@ -4,6 +4,7 @@ const sequelize = require('../config/sequelize');
 
 const minDate = Date.now();
 const maxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 100));
+const descriptionMaxLength = 5000;
 
 const TASK_SCHEMA = {
   create: Joi.object({
@@ -14,6 +15,9 @@ const TASK_SCHEMA = {
   }),
   setDueDate: Joi.object().keys({
     dueDate: Joi.date().greater(minDate).less(maxDate),
+  }),
+  setDescription: Joi.object().keys({
+    description: Joi.string().max(descriptionMaxLength).allow(''),
   }),
 };
 
@@ -41,6 +45,10 @@ Task.init(
         min: minDate,
         max: maxDate,
       },
+    },
+    description: {
+      type: DataTypes.TEXT,
+      validate: { max: descriptionMaxLength },
     },
   },
   {
