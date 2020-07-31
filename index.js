@@ -7,13 +7,17 @@ const routes = require('./routes');
 const database = require('./config/database');
 const errorHandler = require('./middleware/errorHandle');
 const notFound = require('./routes/notFound');
+const passportService = require('./services/passport');
 
 const MAX_BYTES = 52428800;
 
 const CORS_OPTIONS = {
-  // origin: clientUrl,
+  origin: clientUrl,
   // credentials: true,
   exposedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+
+  credentials: true,
 
   // allowedHeaders: ['Content-Type', 'Authorization'],
 };
@@ -34,6 +38,7 @@ const app = express();
 
 module.exports = (async () => {
   await database(); // database initialize
+  passportService(app); // setup passport service
   app.use(express.json({ limit: MAX_BYTES })); // json body parser
   app.use(express.static(path.join(__dirname, 'public'))); // static files parser
   app.use(cors(CORS_OPTIONS)); // allow cors origin

@@ -60,8 +60,7 @@ User.init(
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: { notEmpty: true, len: [5, 255], notNull: true },
+      validate: { notEmpty: true, len: [5, 255] },
     },
     name: { type: DataTypes.STRING, defaultValue: 'unknown', validate: { len: [1, 255] } },
     role: {
@@ -82,13 +81,17 @@ User.init(
     sequelize,
     hooks: {
       beforeCreate: async user => {
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(user.password, salt);
-      },
-      beforeUpdate: async user => {
-        if (user.getDataValue('password') !== user.previous('password')) {
+        if (user.password) {
           const salt = await bcrypt.genSalt(10);
           user.password = await bcrypt.hash(user.password, salt);
+        }
+      },
+      beforeUpdate: async user => {
+        if (user.password) {
+          if (user.getDataValue('password') !== user.previous('password')) {
+            const salt = await bcrypt.genSalt(10);
+            user.password = await bcrypt.hash(user.password, salt);
+          }
         }
       },
     },

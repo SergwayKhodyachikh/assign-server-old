@@ -1,6 +1,8 @@
 const _ = require('lodash');
+const passport = require('passport');
 const User = require('../models/user');
 const ServerError = require('../utils/ServerError');
+const { clientUrl } = require('../config/env');
 
 exports.createUser = async (req, res, next) => {
   try {
@@ -47,4 +49,25 @@ exports.userLogin = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+};
+
+const FAILURE_REDIRECT_URL = `${clientUrl}/login`;
+
+exports.authenticateGoogleOauth = passport.authenticate('google', {
+  scope: ['profile', 'email'],
+  failureRedirect: FAILURE_REDIRECT_URL,
+});
+
+exports.authenticateFacebookOauth = passport.authenticate('facebook', {
+  scope: ['public_profile', 'email'],
+  failureRedirect: FAILURE_REDIRECT_URL,
+});
+
+exports.redirectOnOauthSuccess = (req, res) => {
+  res.redirect(clientUrl);
+};
+
+exports.logoutUser = (req, res) => {
+  req.logOut();
+  res.redirect(clientUrl);
 };

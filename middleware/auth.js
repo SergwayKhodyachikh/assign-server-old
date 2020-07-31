@@ -12,6 +12,9 @@ module.exports = async (req, res, next) => {
     const authHeader = req.headers.authorization;
     let token;
 
+    // check if the request was already authenticated by PassportJS
+    if (req.user) return next();
+
     // check if the header contain authorization header that contain bearer token
     if (authHeader && isBearerAuth(authHeader)) [, token] = authHeader.split(' ');
     if (!token) throw new ServerError('invalid credentials', 401);
