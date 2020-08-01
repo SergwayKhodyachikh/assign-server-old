@@ -16,7 +16,7 @@ module.exports = app => {
     });
   });
 
-// const LocalStrategy = require('passport-local').Strategy;
+  // const LocalStrategy = require('passport-local').Strategy;
   // passport.use(
   //   new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
   //     try {
@@ -124,6 +124,7 @@ module.exports = app => {
         60 /* seconds */ *
         1000 /* milliseconds */,
       keys: [APP_SECRET_KEY],
+      sameSite: 'none',
     })
   );
 
