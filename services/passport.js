@@ -125,6 +125,7 @@ module.exports = app => {
         1000 /* milliseconds */,
       keys: [APP_SECRET_KEY],
       sameSite: 'none',
+      secure: true,
     })
   );
 
