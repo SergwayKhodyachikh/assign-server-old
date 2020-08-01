@@ -45,7 +45,7 @@ exports.fetchProjectData = async (req, res, next) => {
     if (!project) throw new ServerError('The project with the given ID was not found.', 404);
 
     res.status(200).send({
-      status: 'Success',
+      status: 'success',
       project,
     });
   } catch (err) {
@@ -67,7 +67,7 @@ exports.updateProject = async (req, res, next) => {
     await project.update(req.body);
 
     res.send({
-      status: 'Success',
+      status: 'success',
       project,
     });
   } catch (err) {
@@ -89,7 +89,7 @@ exports.deleteProject = async (req, res, next) => {
     await project.destroy();
     // send status if successes
     res.status(204).send({
-      status: 'Success',
+      status: 'success',
       data: null,
     });
   } catch (err) {
