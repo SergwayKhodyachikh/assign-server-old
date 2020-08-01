@@ -12,13 +12,14 @@ const {
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
   CLIENT_BASE_URL,
+  SECRET_KEY,
 } = process.env;
 
 const PORT = process.env.PORT || 5000;
 
 const clientUrl = CLIENT_BASE_URL || 'http://localhost:3000';
 
-const JWT_KEY = process.env.JWT_KEY || randomKey;
+const APP_SECRET_KEY = SECRET_KEY || randomKey;
 
 const env = {
   isDev: !NODE_ENV || NODE_ENV === 'development',
@@ -37,9 +38,25 @@ const database = {
 const databaseHost = DATABASE_HOST;
 
 const google = {
-  GOOGLE_CLIENT_ID,
-  GOOGLE_CLIENT_SECRET,
-  callbackURL: `${CLIENT_BASE_URL}/api/auth/google/callback`,
+  clientID: GOOGLE_CLIENT_ID,
+  clientSecret: GOOGLE_CLIENT_SECRET,
+  callbackURL: '/api/v1/users/google/callback',
 };
 
-module.exports = { env, database, databaseHost, NODE_ENV, PORT, JWT_KEY, google, clientUrl };
+const facebook = {
+  clientID: process.env.FACEBOOK_CLIENT_ID,
+  clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+  callbackURL: '/api/v1/users/facebook/callback',
+};
+
+module.exports = {
+  env,
+  database,
+  databaseHost,
+  NODE_ENV,
+  PORT,
+  APP_SECRET_KEY,
+  google,
+  clientUrl,
+  facebook,
+};

@@ -12,7 +12,7 @@ const passportService = require('./services/passport');
 const MAX_BYTES = 52428800;
 
 const CORS_OPTIONS = {
-  origin: true,
+  origin: clientUrl,
   // credentials: true,
   exposedHeaders: ['Content-Type', 'Authorization'],
   allowedHeaders: ['Content-Type', 'Authorization'],

@@ -2,7 +2,7 @@ const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const ServerError = require('../utils/ServerError');
-const { JWT_KEY } = require('../config/env');
+const { APP_SECRET_KEY } = require('../config/env');
 
 const verifyJWT = promisify(jwt.verify);
 const isBearerAuth = token => /^Bearer /.test(token);
@@ -20,7 +20,7 @@ module.exports = async (req, res, next) => {
     if (!token) throw new ServerError('invalid credentials', 401);
 
     // verify jwt token and user
-    const decode = await verifyJWT(token, JWT_KEY).catch(() => {
+    const decode = await verifyJWT(token, APP_SECRET_KEY).catch(() => {
       throw new ServerError('invalid credentials', 401);
     });
     const user = await User.findByPk(decode.sub);
