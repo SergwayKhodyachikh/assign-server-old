@@ -9,11 +9,11 @@ const isBearerAuth = token => /^Bearer /.test(token);
 
 module.exports = async (req, res, next) => {
   try {
-    const authHeader = req.headers.authorization;
-    let token;
-
     // check if the request was already authenticated by PassportJS
     if (req.user) return next();
+
+    const authHeader = req.headers.authorization;
+    let token;
 
     // check if the header contain authorization header that contain bearer token
     if (authHeader && isBearerAuth(authHeader)) [, token] = authHeader.split(' ');

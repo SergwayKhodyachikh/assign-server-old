@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const passport = require('passport');
 const User = require('../models/user');
 const bodyValidation = require('../middleware/bodyValidation');
 const {
@@ -12,9 +11,6 @@ const {
   authenticateFacebookOauth,
 } = require('../controllers/users');
 const auth = require('../middleware/auth');
-const { clientUrl } = require('../config/env');
-
-const FAILURE_REDIRECT_URL = `${clientUrl}/login`;
 
 // register user
 router.route('/').post(bodyValidation(User, 'create'), createUser);
@@ -29,13 +25,6 @@ router.get('/google/callback', authenticateGoogleOauth, redirectOnOauthSuccess);
 
 // FACEBOOK OAuth
 router.get('/facebook', authenticateFacebookOauth);
-router.get(
-  '/facebook/callback',
-  passport.authorize('facebook', {
-    scope: ['public_profile', 'email'],
-    failureRedirect: FAILURE_REDIRECT_URL,
-  }),
-  redirectOnOauthSuccess
-);
+router.get('/facebook/callback', authenticateFacebookOauth, redirectOnOauthSuccess);
 
 module.exports = router;
