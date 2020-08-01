@@ -31,8 +31,7 @@ exports.renameTask = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
-
+};
 
 exports.setDueDate = async (req, res, next) => {
   try {
@@ -51,8 +50,7 @@ exports.setDueDate = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
-
+};
 
 exports.setDescription = async (req, res, next) => {
   try {
@@ -71,4 +69,26 @@ exports.setDescription = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
+};
+
+/**
+ * delete task by id
+ */
+exports.deleteTask = async (req, res, next) => {
+  try {
+    // find a single project with the id
+    const task = await Task.findByPk(req.params.taskId);
+    // validate project existence in the database
+    if (!task) throw new ServerError('The project with the given ID was not found.', 404);
+
+    // delete the current project
+    await task.destroy();
+    // send status if successes
+    res.status(204).send({
+      status: 'success',
+      data: null,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
