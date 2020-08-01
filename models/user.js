@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const Joi = require('@hapi/joi');
 const jwt = require('jsonwebtoken');
 const sequelize = require('../config/sequelize');
-const { JWT_KEY } = require('../config/env');
+const { APP_SECRET_KEY } = require('../config/env');
 const Project = require('./project');
 
 const USER_SCHEMA = {
@@ -30,7 +30,7 @@ class User extends Model {
         aud: this.role,
         iat: Date.now(),
       },
-      JWT_KEY,
+      APP_SECRET_KEY,
       { expiresIn: '20d' }
     );
   }
