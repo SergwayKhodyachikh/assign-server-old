@@ -39,7 +39,8 @@ Task.hasMany(Comment, associationSettings);
 Comment.belongsTo(Task, associationSettings);
 
 const authorAssociationSettings = {
-  foreignKey: 'author',
+  as: 'Author',
+  foreignKey: 'authorId',
   onUpdate: 'RESTRICT',
   onDelete: 'CASCADE',
 };

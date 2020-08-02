@@ -27,7 +27,7 @@ module.exports = {
         onDelete: 'CASCADE',
         onUpdate: 'RESTRICT',
       },
-      author: {
+      author_id: {
         type: Sequelize.DataTypes.UUID,
         references: {
           model: {

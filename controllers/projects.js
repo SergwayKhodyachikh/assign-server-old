@@ -45,7 +45,10 @@ exports.fetchProjectData = async (req, res, next) => {
         model: Section,
         include: {
           model: Task,
-          include: { model: Comment, include: { model: User, attributes: ['id', 'name', 'email'] } },
+          include: {
+            model: Comment,
+            include: { model: User, attributes: ['id', 'name', 'email'], as: 'Author' },
+          },
         },
       },
     });
