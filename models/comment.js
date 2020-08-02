@@ -7,7 +7,6 @@ const Task = require('./task');
 const COMMENT_SCHEMA = {
   create: Joi.object({
     message: Joi.string().min(1).max(2000).required(),
-    author: Joi.string().uuid().required(),
   }),
 };
 

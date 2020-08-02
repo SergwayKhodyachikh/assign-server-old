@@ -2,6 +2,7 @@ const router = require('express').Router({ mergeParams: true });
 const Task = require('../models/task');
 const ServerError = require('../utils/ServerError');
 const { renameTask, setDueDate, setDescription, deleteTask } = require('../controllers/tasks');
+const { createComment } = require('../controllers/comments');
 const paramValidation = require('../middleware/paramValidation');
 const bodyValidation = require('../middleware/bodyValidation');
 const auth = require('../middleware/auth');
@@ -20,17 +21,6 @@ router
   .patch('/rename', bodyValidation(Task, 'rename'), renameTask)
   // delete task route
   .delete('/', deleteTask)
-  .post('/comments/', async (req, res, next) => {
-    try {
-      const comment = await Comment.create({
-        ...req.body,
-        taskId: req.params.taskId,
-        author: req.user.id,
-      });
+  .post('/comments/', bodyValidation(Comment, 'create'), createComment);
 
-      res.send({ status: 'success', section: comment });
-    } catch (err) {
-      next(err);
-    }
-  });
 module.exports = router;
