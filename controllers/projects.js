@@ -2,6 +2,7 @@ const Project = require('../models/project');
 const ServerError = require('../utils/ServerError');
 const Section = require('../models/section');
 const Task = require('../models/task');
+const Comment = require('../models/comment');
 
 /**
  * create an new project
@@ -39,7 +40,10 @@ exports.fetchProjects = async (req, res, next) => {
 exports.fetchProjectData = async (req, res, next) => {
   try {
     const project = await Project.findByPk(req.params.projectId, {
-      include: { model: Section, include: { model: Task } },
+      include: {
+        model: Section,
+        include: { model: Task, include: { model: Comment, include: { all: true } } },
+      },
     });
     // validate if the project exists
     if (!project) throw new ServerError('The project with the given ID was not found.', 404);

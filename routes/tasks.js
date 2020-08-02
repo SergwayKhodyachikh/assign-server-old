@@ -5,6 +5,7 @@ const { renameTask, setDueDate, setDescription, deleteTask } = require('../contr
 const paramValidation = require('../middleware/paramValidation');
 const bodyValidation = require('../middleware/bodyValidation');
 const auth = require('../middleware/auth');
+const Comment = require('../models/comment');
 
 router.use(auth);
 
@@ -18,5 +19,18 @@ router
   // change description patch
   .patch('/rename', bodyValidation(Task, 'rename'), renameTask)
   // delete task route
-  .delete('/', deleteTask);
+  .delete('/', deleteTask)
+  .post('/comments/', async (req, res, next) => {
+    try {
+      const comment = await Comment.create({
+        ...req.body,
+        taskId: req.params.taskId,
+        author: req.user.id,
+      });
+
+      res.send({ status: 'success', section: comment });
+    } catch (err) {
+      next(err);
+    }
+  });
 module.exports = router;
