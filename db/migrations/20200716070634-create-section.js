@@ -7,11 +7,17 @@ module.exports = {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.UUID,
+        type: Sequelize.DataTypes.UUID,
         defaultValue: Sequelize.literal('uuid_generate_v4()'),
       },
       title: {
         type: Sequelize.STRING,
+        allowNull: false,
+      },
+      order: {
+        type: Sequelize.DataTypes.INTEGER,
+        unique: true,
+        autoIncrement: true,
         allowNull: false,
       },
       project_id: {
@@ -28,11 +34,11 @@ module.exports = {
       },
       created_at: {
         defaultValue: Sequelize.literal('now()'),
-        type: Sequelize.DATE,
+        type: Sequelize.DataTypes.DATE,
       },
       updated_at: {
         defaultValue: Sequelize.literal('now()'),
-        type: Sequelize.DATE,
+        type: Sequelize.DataTypes.DATE,
       },
     });
   },

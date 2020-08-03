@@ -51,6 +51,12 @@ exports.fetchProjectData = async (req, res, next) => {
           },
         },
       },
+      order: [
+        // We start the order array with the model we want to sort
+        [Section, 'order', 'ASC'],
+        [Section, Task, 'createdAt', 'ASC'],
+        [Section, Task, Comment, 'createdAt', 'DESC'],
+      ],
     });
     // validate if the project exists
     if (!project) throw new ServerError('The project with the given ID was not found.', 404);

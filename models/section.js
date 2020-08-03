@@ -27,6 +27,12 @@ Section.init(
       allowNull: false,
       validate: { notNull: true, notEmpty: true, len: [1, 255] },
     },
+    order: {
+      type: DataTypes.INTEGER,
+      unique: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
   },
   { sequelize }
 );
