@@ -39,3 +39,22 @@ exports.deleteSection = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.renameSection = async (req, res, next) => {
+  try {
+    // find the section and check if exists
+    const section = await Section.findByPk(req.params.sectionId);
+    if (!section) throw new ServerError('The section with the given ID was not found.', 404);
+    // update the value and save in the database
+    section.title = req.body.title;
+    await section.save();
+    // get the latest data from the database and send the client
+    await section.reload();
+    res.send({
+      status: 'success',
+      section,
+    });
+  } catch (err) {
+    next(err);
+  }
+};

@@ -7,6 +7,9 @@ const SECTION_SCHEMA = {
   create: Joi.object({
     title: Joi.string().min(1).max(255).required(),
   }),
+  rename: Joi.object({
+    title: Joi.string().min(1).max(255).required(),
+  }),
 };
 
 class Section extends Model {
