@@ -1,37 +1,10 @@
-const cookieSession = require('cookie-session');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const User = require('../models/user');
-const { APP_SECRET_KEY, google, facebook } = require('../config/env');
+const { googleOptions, facebookOptions } = require('../config/env');
 
 module.exports = app => {
-  passport.serializeUser((user, done) => {
-    done(null, user.id);
-  });
-
-  passport.deserializeUser((id, done) => {
-    User.findByPk(id).then(user => {
-      done(null, user);
-    });
-  });
-
-  // const LocalStrategy = require('passport-local').Strategy;
-  // passport.use(
-  //   new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
-  //     try {
-  //       // verifyUser
-  //       const user = await User.findOne({ where: { email } });
-  //       if (!user) return done(null, false);
-  //       // verifyPassword
-  //       const isMatch = await user.comparePassword(password);
-  //       return isMatch ? done(null, user) : done(null, false);
-  //     } catch (err) {
-  //       return done(err);
-  //     }
-  //   })
-  // );
-
   /**
    * get object name with the givenName and familyName concatenate them and return a string of a full name
    * @param {object} name object name with the givenName and familyName string properties
@@ -76,7 +49,7 @@ module.exports = app => {
    * @param {Function} done
    * @function
    */
-  const handleOauth = async (accessToken, refreshToken, profile, done) => {
+  const handleOauth = async (_accessToken, _refreshToken, profile, done) => {
     const { email, name } = extractProfileInfo(profile);
 
     const existingUser = await User.findOne({
@@ -88,46 +61,10 @@ module.exports = app => {
     }
 
     const user = await createNewUser(name, email);
-    done(null, user);
+    return done(null, user);
   };
 
-  passport.use(
-    new GoogleStrategy(
-      {
-        clientID: google.clientID,
-        clientSecret: google.clientSecret,
-        callbackURL: google.callbackURL,
-      },
-      handleOauth
-    )
-  );
-
-  passport.use(
-    new FacebookStrategy(
-      {
-        clientID: facebook.clientID,
-        clientSecret: facebook.clientSecret,
-        callbackURL: facebook.callbackURL,
-        profileFields: ['emails', 'name'],
-      },
-      handleOauth
-    )
-  );
-
-  app.use(
-    cookieSession({
-      /* 30 days in total */
-      maxAge:
-        30 /* days */ *
-        24 /* hours */ *
-        60 /* minutes */ *
-        60 /* seconds */ *
-        1000 /* milliseconds */,
-      keys: [APP_SECRET_KEY],
-      sameSite: 'none',
-    })
-  );
-
+  passport.use(new GoogleStrategy(googleOptions, handleOauth));
+  passport.use(new FacebookStrategy(facebookOptions, handleOauth));
   app.use(passport.initialize());
-  app.use(passport.session());
 };

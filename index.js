@@ -1,3 +1,6 @@
+const app = require('express')();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
@@ -13,13 +16,9 @@ const MAX_BYTES = 52428800;
 
 const CORS_OPTIONS = {
   origin: clientUrl,
-  // credentials: true,
   exposedHeaders: ['Content-Type', 'Authorization'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-
   credentials: true,
-
-  // allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
 /**
@@ -34,7 +33,11 @@ const handleEx = ex => {
 process.on('uncaughtException', handleEx);
 process.on('unhandledRejection', handleEx);
 
-const app = express();
+io.on('connect', socket => {
+  app.set('emit_current_user', (event, payload) => {
+    socket.emit(event, { type: event, payload });
+  });
+});
 
 module.exports = (async () => {
   await database(); // database initialize
@@ -47,5 +50,5 @@ module.exports = (async () => {
   app.use('*', notFound); // page not found error handler
   app.use(errorHandler); // error handler
 
-  return app.listen(PORT, () => success(`listening on port ${PORT}`));
+  return server.listen(PORT, () => success(`listening on port ${PORT}`));
 })();

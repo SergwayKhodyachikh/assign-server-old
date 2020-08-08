@@ -6,8 +6,7 @@ const {
   getCurrentUser,
   userLogin,
   authenticateGoogleOauth,
-  redirectOnOauthSuccess,
-  logoutUser,
+  oauthSuccessCallback,
   authenticateFacebookOauth,
 } = require('../controllers/users');
 const auth = require('../middleware/auth');
@@ -17,14 +16,13 @@ router.route('/').post(bodyValidation(User, 'create'), createUser);
 
 router.route('/me').all(auth).get(getCurrentUser);
 router.post('/login', bodyValidation(User, 'login'), userLogin);
-router.get('/logout', logoutUser);
 
 // GOOGLE OAuth
 router.get('/google', authenticateGoogleOauth);
-router.get('/google/callback', authenticateGoogleOauth, redirectOnOauthSuccess);
+router.get('/google/callback', authenticateGoogleOauth, oauthSuccessCallback);
 
 // FACEBOOK OAuth
 router.get('/facebook', authenticateFacebookOauth);
-router.get('/facebook/callback', authenticateFacebookOauth, redirectOnOauthSuccess);
+router.get('/facebook/callback', authenticateFacebookOauth, oauthSuccessCallback);
 
 module.exports = router;

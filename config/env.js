@@ -37,16 +37,17 @@ const database = {
 
 const databaseHost = DATABASE_HOST;
 
-const google = {
+const googleOptions = {
   clientID: GOOGLE_CLIENT_ID,
   clientSecret: GOOGLE_CLIENT_SECRET,
   callbackURL: '/api/v1/users/google/callback',
 };
 
-const facebook = {
+const facebookOptions = {
   clientID: process.env.FACEBOOK_CLIENT_ID,
   clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
   callbackURL: '/api/v1/users/facebook/callback',
+  profileFields: ['emails', 'name'],
 };
 
 module.exports = {
@@ -56,7 +57,7 @@ module.exports = {
   NODE_ENV,
   PORT,
   APP_SECRET_KEY,
-  google,
+  googleOptions,
+  facebookOptions,
   clientUrl,
-  facebook,
 };

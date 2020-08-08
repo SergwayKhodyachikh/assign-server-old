@@ -51,23 +51,18 @@ exports.userLogin = async (req, res, next) => {
   }
 };
 
-const FAILURE_REDIRECT_URL = `${clientUrl}/login`;
-
 exports.authenticateGoogleOauth = passport.authenticate('google', {
   scope: ['profile', 'email'],
-  failureRedirect: FAILURE_REDIRECT_URL,
+  session: false,
 });
 
 exports.authenticateFacebookOauth = passport.authenticate('facebook', {
   scope: ['public_profile', 'email'],
-  failureRedirect: FAILURE_REDIRECT_URL,
+  session: false,
 });
 
-exports.redirectOnOauthSuccess = (req, res) => {
-  res.redirect(clientUrl);
-};
-
-exports.logoutUser = (req, res) => {
-  req.logOut();
-  res.redirect(clientUrl);
+exports.oauthSuccessCallback = (req, res) => {
+  const token = req.user.generateAuthToken();
+  req.app.get('emit_current_user')('OAUTH_AUTH', { token });
+  res.send('<script>window.close();</script>');
 };
