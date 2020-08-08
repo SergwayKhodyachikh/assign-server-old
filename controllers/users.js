@@ -2,7 +2,6 @@ const _ = require('lodash');
 const passport = require('passport');
 const User = require('../models/user');
 const ServerError = require('../utils/ServerError');
-const { clientUrl } = require('../config/env');
 
 exports.createUser = async (req, res, next) => {
   try {
@@ -63,6 +62,11 @@ exports.authenticateFacebookOauth = passport.authenticate('facebook', {
 
 exports.oauthSuccessCallback = (req, res) => {
   const token = req.user.generateAuthToken();
-  req.app.get('emit_current_user')('OAUTH_AUTH', { token });
+  const emitCurrentUser = req.app.get('emit_current_user');
+
+  emitCurrentUser('OAUTH_AUTH', {
+    token,
+    user: _.pick(req.user, ['id', 'name', 'email']),
+  });
   res.send('<script>window.close();</script>');
 };
