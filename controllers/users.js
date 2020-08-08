@@ -2,6 +2,7 @@ const _ = require('lodash');
 const passport = require('passport');
 const User = require('../models/user');
 const ServerError = require('../utils/ServerError');
+const { facebookOptions } = require('../config/env');
 
 exports.createUser = async (req, res, next) => {
   try {
@@ -57,6 +58,7 @@ exports.authenticateGoogleOauth = passport.authenticate('google', {
 
 exports.authenticateFacebookOauth = passport.authenticate('facebook', {
   scope: ['public_profile', 'email'],
+  successRedirect: facebookOptions.callbackURL,
   session: false,
 });
 
