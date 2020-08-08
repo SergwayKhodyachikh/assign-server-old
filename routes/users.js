@@ -7,9 +7,9 @@ const {
   userLogin,
   authenticateGoogleOauth,
   oauthSuccessCallback,
-  authenticateFacebookOauth,
 } = require('../controllers/users');
 const auth = require('../middleware/auth');
+const passport = require('passport');
 
 // register user
 router.route('/').post(bodyValidation(User, 'create'), createUser);
@@ -22,7 +22,12 @@ router.get('/google', authenticateGoogleOauth);
 router.get('/google/callback', authenticateGoogleOauth, oauthSuccessCallback);
 
 // FACEBOOK OAuth
-router.get('/facebook', authenticateFacebookOauth);
-router.get('/facebook/callback', authenticateFacebookOauth, oauthSuccessCallback);
+// router.get('/facebook', authenticateFacebookOauth);
+// router.get('/facebook/callback', authenticateFacebookOauth, oauthSuccessCallback);
+
+// Github Oauth
+const githubAuth = passport.authenticate('github');
+router.get('/github', githubAuth);
+router.get('/github/callback', githubAuth, oauthSuccessCallback);
 
 module.exports = router;

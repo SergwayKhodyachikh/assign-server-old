@@ -55,10 +55,13 @@ exports.authenticateGoogleOauth = passport.authenticate('google', {
   session: false,
 });
 
-exports.authenticateFacebookOauth = passport.authenticate('facebook', {
-  scope: ['public_profile', 'email'],
-  session: false,
-});
+// exports.authenticateFacebookOauth = passport.authenticate('facebook', {
+//   scope: ['public_profile', 'email'],
+//   session: false,
+// });
+
+exports.authenticateGithubOauth = passport.authenticate('github');
+
 
 exports.oauthSuccessCallback = (req, res) => {
   const token = req.user.generateAuthToken();

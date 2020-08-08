@@ -50,6 +50,13 @@ const facebookOptions = {
   profileFields: ['emails', 'name'],
 };
 
+const githubOptions = {
+  clientID: process.env.GITHUB_KEY,
+  clientSecret: process.env.GITHUB_SECRET,
+  callbackURL: '/api/v1/users/github/callback',
+  scope: [ 'user:email' ]
+};
+
 module.exports = {
   env,
   database,
@@ -59,5 +66,6 @@ module.exports = {
   APP_SECRET_KEY,
   googleOptions,
   facebookOptions,
+  githubOptions,
   clientUrl,
 };

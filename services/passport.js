@@ -1,8 +1,9 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
+const GithubStrategy = require('passport-github').Strategy;
 const User = require('../models/user');
-const { googleOptions, facebookOptions } = require('../config/env');
+const { googleOptions, facebookOptions, githubOptions } = require('../config/env');
 
 module.exports = app => {
   /**
@@ -65,6 +66,7 @@ module.exports = app => {
   };
 
   passport.use(new GoogleStrategy(googleOptions, handleOauth));
-  passport.use(new FacebookStrategy(facebookOptions, handleOauth));
+  // passport.use(new FacebookStrategy(facebookOptions, handleOauth));
+  passport.use(new GithubStrategy(githubOptions, handleOauth));
   app.use(passport.initialize());
 };
