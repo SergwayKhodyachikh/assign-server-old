@@ -40,13 +40,13 @@ const databaseHost = DATABASE_HOST;
 const googleOptions = {
   clientID: GOOGLE_CLIENT_ID,
   clientSecret: GOOGLE_CLIENT_SECRET,
-  callbackURL: '/api/v1/users/google/callback',
+  callbackURL: `${clientUrl}/api/v1/users/google/callback`,
 };
 
 const facebookOptions = {
   clientID: process.env.FACEBOOK_CLIENT_ID,
   clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-  callbackURL: '/api/v1/users/facebook/callback',
+  callbackURL: `${clientUrl}/api/v1/users/facebook/callback`,
   profileFields: ['emails', 'name'],
 };
 
