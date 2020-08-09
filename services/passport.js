@@ -14,7 +14,7 @@ module.exports = app => {
    * @function
    */
   const convertNameFromObjToString = name =>
-    name.givenName && name.familyName ? `${name.givenName} ${name.familyName}` : 'Unknown';
+    name && name.givenName && name.familyName ? `${name.givenName} ${name.familyName}` : 'Unknown';
 
   /**
    * extract the email and name nested properties from the profile object modify and return them as strings properties
@@ -67,6 +67,23 @@ module.exports = app => {
 
   passport.use(new GoogleStrategy(googleOptions, handleOauth));
   // passport.use(new FacebookStrategy(facebookOptions, handleOauth));
-  passport.use(new GithubStrategy(githubOptions, handleOauth));
+  passport.use(
+    new GithubStrategy(githubOptions, async (_accessToken, _refreshToken, profile, done) => {
+      console.log(profile);
+      const { email } = profile;
+      // const { email, name } = extractProfileInfo(profile);
+
+      const existingUser = await User.findOne({
+        where: { email },
+      });
+
+      if (existingUser) {
+        return done(null, existingUser);
+      }
+
+      const user = await createNewUser(email);
+      return done(null, user);
+    })
+  );
   app.use(passport.initialize());
 };
