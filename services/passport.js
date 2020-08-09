@@ -24,7 +24,9 @@ module.exports = app => {
    */
   const extractProfileInfo = profile => {
     const email = profile.emails[0].value;
-    const name = convertNameFromObjToString(profile.name);
+    const name = profile.displayName
+      ? profile.displayName
+      : convertNameFromObjToString(profile.name);
 
     return { email, name };
   };
@@ -67,23 +69,6 @@ module.exports = app => {
 
   passport.use(new GoogleStrategy(googleOptions, handleOauth));
   // passport.use(new FacebookStrategy(facebookOptions, handleOauth));
-  passport.use(
-    new GithubStrategy(githubOptions, async (_accessToken, _refreshToken, profile, done) => {
-      console.log(profile);
-      const { email } = profile;
-      // const { email, name } = extractProfileInfo(profile);
-
-      const existingUser = await User.findOne({
-        where: { email },
-      });
-
-      if (existingUser) {
-        return done(null, existingUser);
-      }
-
-      const user = await createNewUser(email);
-      return done(null, user);
-    })
-  );
+  passport.use(new GithubStrategy(githubOptions, handleOauth));
   app.use(passport.initialize());
 };

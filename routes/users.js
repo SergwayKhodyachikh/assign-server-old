@@ -26,7 +26,7 @@ router.get('/google/callback', authenticateGoogleOauth, oauthSuccessCallback);
 // router.get('/facebook/callback', authenticateFacebookOauth, oauthSuccessCallback);
 
 // Github Oauth
-const githubAuth = passport.authenticate('github');
+const githubAuth = passport.authenticate('github', { session: false });
 router.get('/github', githubAuth);
 router.get('/github/callback', githubAuth, oauthSuccessCallback);
 
