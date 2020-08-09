@@ -60,7 +60,7 @@ exports.authenticateGoogleOauth = passport.authenticate('google', {
 //   session: false,
 // });
 
-exports.authenticateGithubOauth = passport.authenticate('github');
+exports.authenticateGithubOauth = passport.authenticate('github', { session: false });
 
 
 exports.oauthSuccessCallback = (req, res) => {

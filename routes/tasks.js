@@ -1,6 +1,5 @@
 const router = require('express').Router({ mergeParams: true });
 const Task = require('../models/task');
-const ServerError = require('../utils/ServerError');
 const { renameTask, setDueDate, setDescription, deleteTask } = require('../controllers/tasks');
 const { createComment } = require('../controllers/comments');
 const paramValidation = require('../middleware/paramValidation');
