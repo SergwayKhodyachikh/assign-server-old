@@ -1,9 +1,13 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const FacebookStrategy = require('passport-facebook').Strategy;
+// const FacebookStrategy = require('passport-facebook').Strategy;
 const GithubStrategy = require('passport-github').Strategy;
 const User = require('../models/user');
-const { googleOptions, facebookOptions, githubOptions } = require('../config/env');
+const {
+  googleOptions,
+  // facebookOptions,
+  githubOptions,
+} = require('../config/env');
 
 module.exports = app => {
   /**

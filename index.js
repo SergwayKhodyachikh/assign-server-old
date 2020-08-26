@@ -3,8 +3,9 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const express = require('express');
 const path = require('path');
+const morgan = require('morgan');
 const cors = require('cors');
-const { PORT, clientUrl } = require('./config/env');
+const { PORT, clientUrl, env } = require('./config/env');
 const { failure, success } = require('./utils/log');
 const routes = require('./routes');
 const database = require('./config/database');
@@ -42,6 +43,7 @@ io.on('connect', socket => {
 module.exports = (async () => {
   await database(); // database initialize
   passportService(app); // setup passport service
+  if (env.isDev) app.use(morgan('dev')); // setup morgan logger
   app.use(express.json({ limit: MAX_BYTES })); // json body parser
   app.use(express.static(path.join(__dirname, 'public'))); // static files parser
   app.use(cors(CORS_OPTIONS)); // allow cors origin
