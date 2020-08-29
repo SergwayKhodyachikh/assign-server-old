@@ -50,6 +50,11 @@ exports.userLogin = async (req, res, next) => {
   }
 };
 
+exports.saveCurrentUserSocketConnection = (req, res, next) => {
+  req.app.set('socketId', req.headers.cookie.split('=')[1]);
+  next();
+};
+
 exports.authenticateGoogleOauth = passport.authenticate('google', {
   scope: ['profile', 'email'],
   session: false,
@@ -61,7 +66,6 @@ exports.authenticateGoogleOauth = passport.authenticate('google', {
 // });
 
 exports.authenticateGithubOauth = passport.authenticate('github', { session: false });
-
 
 exports.oauthSuccessCallback = (req, res) => {
   const token = req.user.generateAuthToken();

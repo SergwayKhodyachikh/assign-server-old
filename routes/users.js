@@ -9,6 +9,7 @@ const {
   authenticateGoogleOauth,
   oauthSuccessCallback,
   authenticateGithubOauth,
+  saveCurrentUserSocketConnection,
 } = require('../controllers/users');
 const auth = require('../middleware/auth');
 
@@ -19,7 +20,7 @@ router.route('/me').all(auth).get(getCurrentUser);
 router.post('/login', bodyValidation(User, 'login'), userLogin);
 
 // GOOGLE OAuth
-router.get('/google', authenticateGoogleOauth);
+router.get('/google', saveCurrentUserSocketConnection, authenticateGoogleOauth);
 router.get('/google/callback', authenticateGoogleOauth, oauthSuccessCallback);
 
 // FACEBOOK OAuth
@@ -27,7 +28,7 @@ router.get('/google/callback', authenticateGoogleOauth, oauthSuccessCallback);
 // router.get('/facebook/callback', authenticateFacebookOauth, oauthSuccessCallback);
 
 // Github Oauth
-router.get('/github', authenticateGithubOauth);
+router.get('/github', saveCurrentUserSocketConnection, authenticateGithubOauth);
 router.get('/github/callback', authenticateGithubOauth, oauthSuccessCallback);
 
 module.exports = router;

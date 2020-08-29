@@ -17,8 +17,8 @@ const MAX_BYTES = 52428800;
 
 const CORS_OPTIONS = {
   origin: clientUrl,
-  exposedHeaders: ['Content-Type', 'Authorization'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Content-Type', 'Authorization', 'socketId'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'socketId'],
   credentials: true,
 };
 
@@ -34,10 +34,14 @@ const handleEx = ex => {
 process.on('uncaughtException', handleEx);
 process.on('unhandledRejection', handleEx);
 
+app.set('io', io);
+
 io.on('connect', socket => {
   app.set('emit_current_user', (event, payload) => {
-    socket.emit(event, { type: event, payload });
+    io.to(app.get('socketId')).emit(event, { type: event, payload });
   });
+
+  app.set('socketId', socket.id);
 });
 
 module.exports = (async () => {
