@@ -55,25 +55,37 @@ exports.saveCurrentUserSocketConnection = (req, res, next) => {
   next();
 };
 
-exports.authenticateGoogleOauth = passport.authenticate('google', {
-  scope: ['profile', 'email'],
-  session: false,
-});
+exports.authenticateGoogleOauth = (req, res, next) =>
+  passport.authenticate('google', {
+    scope: ['profile', 'email'],
+    session: false,
+    state: req.query.socketId
+  })(req, res, next);
 
 // exports.authenticateFacebookOauth = passport.authenticate('facebook', {
 //   scope: ['public_profile', 'email'],
 //   session: false,
 // });
 
-exports.authenticateGithubOauth = passport.authenticate('github', { session: false });
+exports.authenticateGithubOauth = (req, res, next) =>
+  passport.authenticate('github', {
+    session: false,
+    state: req.query.socketId
+  })(req, res, next);
 
 exports.oauthSuccessCallback = (req, res) => {
+  // generate user jwt token (the function in the model)
   const token = req.user.generateAuthToken();
-  const emitCurrentUser = req.app.get('emit_current_user');
-
-  emitCurrentUser('OAUTH_AUTH', {
-    token,
-    user: _.pick(req.user, ['id', 'name', 'email']),
-  });
+  req.app
+    // get the socket io client
+    .get('io')
+    // set the socket io
+    .to(req.query.state)
+    // emit an event with type and payload to the client
+    .emit('OAUTH_AUTH', {
+      type: 'OAUTH_AUTH',
+      payload: { token, user: _.pick(req.user, ['id', 'name', 'email']) }
+    });
+  // close the popup window on the client side
   res.send('<script>window.close();</script>');
 };

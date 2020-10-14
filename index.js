@@ -36,13 +36,11 @@ process.on('unhandledRejection', handleEx);
 
 app.set('io', io);
 
-io.on('connect', socket => {
-  app.set('emit_current_user', (event, payload) => {
-    io.to(app.get('socketId')).emit(event, { type: event, payload });
-  });
-
-  app.set('socketId', socket.id);
-});
+// io.on('connect', socket => {
+//   app.set('emit_current_user', (event, payload) => {
+//     io.to(app.get('socketId')).emit(event, { type: event, payload });
+//   });
+// });
 
 module.exports = (async () => {
   await database(); // database initialize
