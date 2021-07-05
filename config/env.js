@@ -27,7 +27,7 @@ const env = {
   isProd: NODE_ENV === 'production',
 };
 
-const databaseName = DATABASE_NAME || 'assign';
+const databaseName = DATABASE_NAME || 'assign-old';
 
 const database = {
   database: env.isTest ? `${databaseName}-test` : databaseName,
